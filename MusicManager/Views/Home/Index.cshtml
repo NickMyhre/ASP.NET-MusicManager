@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="row text-center mt-5">
+        <h1 class="display-4 text-center mt-3 border-bottom pb-2">Welcome to the Music Manager</h1>
+    </div>
+    <div class="row text-center mt-5 pb-5">
+        <div class="col-3 text-white-50">
+            <i class="fa-solid fa-headphones fa-2xl"></i>
+        </div>
+        <div class="col-6">
+            <p class="card-text ">Click a link somewhere to begin managing your musical data!</p>
+            <p class="form-control-plaintext">Or you can just take a look around too. It's cool, I guess.</p>
+            <div class="btn-group mt-5">
+            <a class="btn btn-outline-light" asp-controller="Artists" asp-action="Index">
+                <i class="fa-solid fa-user"></i>
+                &nbspView Artists
+                </a>
+            <a class="btn btn-outline-light">
+                <i class="fa-solid fa-record-vinyl"></i>
+                &nbspView Albums
+            </a>
+            <a class="btn btn-outline-light" asp-controller="Songs" asp-action="Index">
+                <i class="fa-solid fa-radio"></i>
+                &nbspView Songs
+            </a>
+            </div>
+        </div>
+        <div class="col-3 text-white-50 fa-2xl">
+            <i class="fa-solid fa-headphones"></i>
+        </div>
+    </div>
+    
+</div>
