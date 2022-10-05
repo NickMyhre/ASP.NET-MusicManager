@@ -23,12 +23,12 @@ namespace MusicManager.Models
             modelBuilder.Entity<Song>()
             .HasMany(b => b.Artists)
             .WithMany(c => c.Songs)
-            ;
+            .UsingEntity<ArtistSong>();
 
             modelBuilder.Entity<Album>()
             .HasMany(b => b.Artists)
             .WithMany(c => c.Albums)
-            .UsingEntity(j => j.ToTable("ArtistAlbum"));
+            .UsingEntity<ArtistAlbum>();
 
             modelBuilder.ApplyConfiguration(new ArtistConfiguration());
             modelBuilder.ApplyConfiguration(new SongConfiguration());
