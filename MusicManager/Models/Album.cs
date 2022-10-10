@@ -14,7 +14,8 @@ namespace MusicManager.Models
         [Required]
         public DateTime? ReleaseDate { get; set; }
         public string? Fact { get; set; }
+        public virtual ICollection<Song> Songs { get; set; } = new List<Song>();
         [Required]
-        public virtual ICollection<Artist> Artists { get; set; }
+        public virtual ICollection<Artist>? Artists { get; set; } = new List<Artist>();  
     }
 }

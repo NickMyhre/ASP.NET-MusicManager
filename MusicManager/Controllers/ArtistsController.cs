@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MusicManager.Contracts;
 using MusicManager.Models;
 using MusicManager.ViewModels.Artist;
 
@@ -13,19 +14,20 @@ namespace MusicManager.Controllers
 {
     public class ArtistsController : Controller
     {
-        private readonly MusicDbContext _context;
+        private readonly IArtistsRepository _artistsRepository;
         private readonly IMapper _mapper;
 
-        public ArtistsController(MusicDbContext context, IMapper mapper)
+        public ArtistsController(IArtistsRepository artistsRepository, IMapper mapper)
         {
-            _context = context;
+            this._artistsRepository = artistsRepository;
             this._mapper = mapper;
         }
 
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            var artists = await _context.Artists.Include(s => s.Songs).ToListAsync();
+            var artists = await _artistsRepository.GetAllAsync();
+
 
             var artistDto = _mapper.Map<List<ArtistDto>>(artists);
 
@@ -35,13 +37,12 @@ namespace MusicManager.Controllers
         // GET: Artists/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Artists == null)
+            if (id == null || !_artistsRepository.HasEntries(Enumerations.SelectType.Artist))
             {
                 return NotFound();
             }
 
-            var artist = await _context.Artists.Include(m => m.Songs).Include(m => m.Albums)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var artist = await _artistsRepository.GetDetails((int)id);
   
             if (artist == null)
             {
@@ -69,8 +70,8 @@ namespace MusicManager.Controllers
            if (ModelState.IsValid)
             {
                 var artist = _mapper.Map<Artist>(createArtistDto);
-                _context.Add(artist);
-                await _context.SaveChangesAsync();
+
+                await _artistsRepository.AddAsync(artist);
                 return RedirectToAction(nameof(Index));
             }
             return View(createArtistDto);
@@ -79,12 +80,12 @@ namespace MusicManager.Controllers
         // GET: Artists/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Artists == null)
+            if (id == null || !_artistsRepository.HasEntries(Enumerations.SelectType.Artist))
             {
                 return NotFound();
             }
 
-            var artist = await _context.Artists.FindAsync(id);
+            var artist = await _artistsRepository.GetAsync(id);
             if (artist == null)
             {
                 return NotFound();
@@ -111,12 +112,11 @@ namespace MusicManager.Controllers
                 var artist = _mapper.Map<Artist>(updateArtistDto);
                 try
                 {
-                    _context.Update(artist);
-                    await _context.SaveChangesAsync();
+                    await _artistsRepository.UpdateAsync(artist);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArtistExists(artist.Id))
+                    if (!await _artistsRepository.Exists(id))
                     {
                         return NotFound();
                     }
@@ -133,13 +133,12 @@ namespace MusicManager.Controllers
         // GET: Artists/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Artists == null)
+            if (id == null || !_artistsRepository.HasEntries(Enumerations.SelectType.Artist))
             {
                 return NotFound();
             }
 
-            var artist = await _context.Artists
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var artist = await _artistsRepository.GetDetails((int)id);
             if (artist == null)
             {
                 return NotFound();
@@ -153,23 +152,16 @@ namespace MusicManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Artists == null)
+            if (await _artistsRepository.GetAllAsync() == null)
             {
                 return Problem("Entity set 'MusicDbContext.Artists'  is null.");
             }
-            var artist = await _context.Artists.FindAsync(id);
-            if (artist != null)
+            if (await _artistsRepository.Exists(id))
             {
-                _context.Artists.Remove(artist);
+                await _artistsRepository.DeleteAsync(id);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ArtistExists(int id)
-        {
-          return _context.Artists.Any(e => e.Id == id);
         }
     }
 }

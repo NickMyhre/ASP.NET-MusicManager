@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MusicManager.Configurations;
+using MusicManager.Contracts;
 using MusicManager.Models;
+using MusicManager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,13 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("MusicManagerDbConnectionString");
 
 builder.Services.AddDbContext<MusicDbContext>(options => {
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(connectionString).EnableSensitiveDataLogging();
 });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
+builder.Services.AddScoped<ISongsRepository, SongsRepository>();
+builder.Services.AddScoped<IAlbumsRepository, AlbumsRepository>();
 
 var app = builder.Build();
 

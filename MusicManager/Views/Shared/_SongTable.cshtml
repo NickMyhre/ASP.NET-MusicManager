@@ -9,13 +9,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Album)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Writer)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BillBoardRank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Length)
+            </th>
+            
         </tr>
     </thead>
     <tbody>
@@ -25,10 +28,13 @@
                     <a>@Html.DisplayFor(modelItem => item.Name)</a>
             </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Album.Title)
+                    @Html.DisplayFor(modelItem => item.Writer)
                 </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Writer)
+                @Html.DisplayFor(modelItem => item.BillBoardRank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
             </td>
             <td>
                 <a asp-controller="Songs" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -13,7 +13,7 @@ namespace MusicManager.ViewModels.Artist
         [Required]
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
-        public virtual ICollection<Album>? Albums { get; set; }
+        public virtual ICollection<Models.Album>? Albums { get; set; }
         public virtual ICollection<SongDto>? Songs { get; set; }
     }
 }

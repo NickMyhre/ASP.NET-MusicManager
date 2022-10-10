@@ -20,6 +20,6 @@ namespace MusicManager.Models
         public int? AlbumId { get; set; }
         public Album? Album { get; set; }
         [Required]
-        public virtual ICollection<Artist> Artists { get; set; }
+        public virtual ICollection<Artist> Artists { get; set; } = new List<Artist>();
     }
 }

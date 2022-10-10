@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicManager.Models;
 using MusicManager.ViewModels.Song;
+using MusicManager.Contracts;
+using MusicManager.Enumerations;
 
 namespace MusicManager.Controllers
 {
     public class SongsController : Controller
     {
-        private readonly MusicDbContext _context;
+        private readonly ISongsRepository _songsRepository;
         private readonly IMapper _mapper;
 
-        public SongsController(MusicDbContext context, IMapper mapper)
+        public SongsController(ISongsRepository songsRepository, IMapper mapper)
         {
-            _context = context;
+            this._songsRepository = songsRepository;
             this._mapper = mapper;
         }
 
         // GET: Songs
         public async Task<IActionResult> Index()
         {
-            var songs = await _context.Songs.Include(s => s.Album).ToListAsync();
+            var songs = await _songsRepository.GetAllAsync();
 
             var songDtos = _mapper.Map<List<SongDto>>(songs);
 
@@ -35,27 +32,25 @@ namespace MusicManager.Controllers
         // GET: Songs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Songs == null)
+            if (id == null || !_songsRepository.HasEntries(SelectType.Song))
             {
                 return NotFound();
             }
 
-            var song = await _context.Songs
-                .Include(s => s.Album).Include(m => m.Artists)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var song = await _songsRepository.GetDetails((int)id);
             if (song == null)
             {
                 return NotFound();
             }
-
-            return View(song);
+            var songDetailsDto = _mapper.Map<SongDetailsDto>(song);
+            return View(songDetailsDto);
         }
 
         // GET: Songs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["AlbumId"] = new SelectList(_context.Albums, "Id", "Title");
-            ViewData["ArtistList"] = new SelectList(_context.Artists, "Id", "BirthName");
+            ViewBag.ArtistList = _songsRepository.GetSelectListAsync(SelectType.Artist);
+            ViewData["AlbumId"] = _songsRepository.GetSelectListAsync(SelectType.Album);
             return View();
         }
 
@@ -64,35 +59,46 @@ namespace MusicManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Length,Comment,BillBoardRank,BillBoardDate,Writer,Artists,AlbumId")] Song song)
+        public async Task<IActionResult> Create([Bind("Id,Name,Length,Comment,BillBoardRank,BillBoardDate,Writer,ArtistIds,AlbumId")] CreateSongDto createSongDto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(song);
-                await _context.SaveChangesAsync();
+                createSongDto.SetArtists();
+                
+                var song = _mapper.Map<Song>(createSongDto);
+                
+                await _songsRepository.AddAsync(song);
+
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistList"] = new MultiSelectList(_context.Artists, "Id", "BirthName", song.Artists);
-            ViewData["AlbumId"] = new SelectList(_context.Albums, "Id", "Title", song.AlbumId);
-            return View(song);
+
+            ViewBag.ArtistList = _songsRepository.GetSelectListAsync(SelectType.Artist);
+            ViewData["AlbumId"] = _songsRepository.GetSelectListAsync(SelectType.Album, null, createSongDto.AlbumId);
+            return View(createSongDto);
         }
 
         // GET: Songs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Songs == null)
+            if (id == null || !_songsRepository.HasEntries(SelectType.Song))
             {
                 return NotFound();
             }
 
-            var song = await _context.Songs.FindAsync(id);
+            var song = await _songsRepository.GetDetails((int)id);
+         
             if (song == null)
             {
                 return NotFound();
             }
-            ViewData["ArtistList"] = new MultiSelectList(_context.Artists, "Id", "BirthName", song.Artists);
-            ViewData["AlbumId"] = new SelectList(_context.Albums, "Id", "Title", song.AlbumId);
-            return View(song);
+
+            var updateSongDto = _mapper.Map<UpdateSongDto>(song);
+            updateSongDto.ArtistIds = song.Artists.Select(x=>x.Id).ToList<int>();
+
+            ViewBag.ArtistList = _songsRepository.GetSelectListAsync(SelectType.Artist, updateSongDto.ArtistIds);
+            ViewData["AlbumId"] = _songsRepository.GetSelectListAsync(SelectType.Album, null, updateSongDto.AlbumId);
+            return View(updateSongDto);
         }
 
         // POST: Songs/Edit/5
@@ -100,9 +106,9 @@ namespace MusicManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Length,Comment,BillBoardRank,BillBoardDate,Artists,Writer,AlbumId")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Length,Comment,BillBoardRank,BillBoardDate,ArtistIds,Writer,AlbumId")] UpdateSongDto updateSongDto)
         {
-            if (id != song.Id)
+            if (id != updateSongDto.Id)
             {
                 return NotFound();
             }
@@ -111,12 +117,12 @@ namespace MusicManager.Controllers
             {
                 try
                 {
-                    _context.Update(song);
-                    await _context.SaveChangesAsync();
+                    await _songsRepository.UpdateAsync(updateSongDto);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SongExists(song.Id))
+                    if (!await _songsRepository.Exists(updateSongDto.Id))
                     {
                         return NotFound();
                     }
@@ -127,28 +133,27 @@ namespace MusicManager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Artists"] = new SelectList(_context.Artists, "Id", "BirthName", song.Artists);
-            ViewData["AlbumId"] = new SelectList(_context.Albums, "Id", "Genre", song.AlbumId);
-            return View(song);
+
+            ViewBag.ArtistList = _songsRepository.GetSelectListAsync(SelectType.Artist);
+            ViewData["AlbumId"] = _songsRepository.GetSelectListAsync(SelectType.Album, null, updateSongDto.AlbumId);
+            return View(updateSongDto);
         }
 
         // GET: Songs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Songs == null)
+            if (id == null || !_songsRepository.HasEntries(SelectType.Song))
             {
                 return NotFound();
             }
 
-            var song = await _context.Songs
-                .Include(s => s.Album)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var song = await _songsRepository.GetDetails((int)id);
             if (song == null)
             {
                 return NotFound();
             }
-
-            return View(song);
+            var songDto = _mapper.Map<SongDetailsDto>(song);
+            return View(songDto);
         }
 
         // POST: Songs/Delete/5
@@ -156,23 +161,16 @@ namespace MusicManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Songs == null)
+            if (!_songsRepository.HasEntries(SelectType.Song))
             {
                 return Problem("Entity set 'MusicDbContext.Songs'  is null.");
             }
-            var song = await _context.Songs.FindAsync(id);
-            if (song != null)
+            if (await _songsRepository.Exists(id))
             {
-                _context.Songs.Remove(song);
+                await _songsRepository.DeleteAsync(id);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SongExists(int id)
-        {
-          return _context.Songs.Any(e => e.Id == id);
         }
     }
 }
