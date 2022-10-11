@@ -5,6 +5,8 @@ using MusicManager.Models;
 using MusicManager.ViewModels.Song;
 using MusicManager.Contracts;
 using MusicManager.Enumerations;
+using MusicManager.Enumerations.Sorting;
+using MusicManager.Utility;
 
 namespace MusicManager.Controllers
 {
@@ -20,11 +22,15 @@ namespace MusicManager.Controllers
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id = "Name_asc")
         {
+            SongOrderBy order = SongOrderBy.Name_asc;
+
+            Enum.TryParse(id, true, out order);
+
             var songs = await _songsRepository.GetAllAsync();
 
-            var songDtos = _mapper.Map<List<SongDto>>(songs);
+            var songDtos = SortingHelper.SortSongs(_mapper.Map<List<SongDto>>(songs), order);
 
             return View(songDtos);
         }

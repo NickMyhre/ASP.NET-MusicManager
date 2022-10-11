@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MusicManager.ViewModels.Artist.ArtistDto>
+﻿@using MusicManager.Enumerations.Sorting
+@model IEnumerable<MusicManager.ViewModels.Artist.ArtistDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,13 +15,22 @@
     <thead>
         <tr>
             <th>
-                Last Name
+                Last Name&nbsp
+                <a asp-action="Index" asp-route-id="SongAmount_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="SongAmount_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
-                Age
-            </th>
-            <th>
-                Number of Songs
+                Age&nbsp
+                <a asp-action="Index" asp-route-id="SongAmount_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="SongAmount_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+            </th> 
+            <th>              
+                Number of Songs&nbsp
+                <a asp-action="Index" asp-route-id="SongAmount_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="SongAmount_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
         </tr>
     </thead>

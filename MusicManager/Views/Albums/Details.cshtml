@@ -53,4 +53,4 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-@await Html.PartialAsync("../Shared/_SongTable.cshtml", Model.Songs)
+@await Html.PartialAsync("../Shared/_AlbumSongTable.cshtml", Model.Songs, new ViewDataDictionary(ViewData){{"ParentId", Model.Id}})

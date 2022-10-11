@@ -14,19 +14,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Title)&nbsp
+                <a asp-action="Index" asp-route-id="Title_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Title_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Artists)
+                @Html.DisplayNameFor(model => model.Artists)&nbsp
+                <a asp-action="Index" asp-route-id="Artist_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Artist_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Label)
+                @Html.DisplayNameFor(model => model.Label)&nbsp
+                <a asp-action="Index" asp-route-id="Label_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Label_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.Genre)&nbsp
+                <a asp-action="Index" asp-route-id="Genre_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Genre_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @Html.DisplayNameFor(model => model.ReleaseDate)&nbsp
+                <a asp-action="Index" asp-route-id="ReleaseDate_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="ReleaseDate_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th></th>
             <th></th>

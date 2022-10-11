@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicManager.Contracts;
 using MusicManager.Models;
-using MusicManager.ViewModels.Artist;
 
 namespace MusicManager.Repositories
 {

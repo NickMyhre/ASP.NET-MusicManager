@@ -32,6 +32,7 @@
 
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-controller="Albums" asp-action="Index">View All</a></li>
+                                <li><a class="dropdown-item" asp-controller="Albums" asp-action="Create">Add an Album</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -44,10 +45,17 @@
 
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-controller="Artists" asp-action="Index">View All</a></li>
+                                <li><a class="dropdown-item" asp-controller="Artists" asp-action="Create">Create an Artist</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" asp-controller="Songs" asp-action="Index">Songs</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" asp-controller="Songs" asp-action="Index" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Songs
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li ><a class="dropdown-item" asp-controller="Songs" asp-action="Index">View All</a></li>
+                                <li ><a class="dropdown-item" asp-controller="Songs" asp-action="Create">Create a Song</a></li>
+                            </ul>
                         </li>
                     </ul>
                     <form class="d-flex">

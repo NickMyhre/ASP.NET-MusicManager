@@ -33,5 +33,6 @@ namespace MusicManager.ViewModels.Artist
             }
             return lastName;
         }
+        public string LastName { get => this.GetLastName(); }
     }
 }

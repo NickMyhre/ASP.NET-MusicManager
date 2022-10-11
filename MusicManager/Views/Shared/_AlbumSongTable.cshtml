@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MusicManager.ViewModels.Song.SongDto>
+@{
+    int id = Convert.ToInt32(ViewData["ParentId"]);
+
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="Name_asc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="Name_desc"asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Writer)
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="Writer_asc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="Writer_desc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BillBoardRank)
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="BillboardRank_asc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="BillboardRank_desc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Length)
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="Length_asc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Details" asp-route-id="@id" asp-route-orderBy="Length_desc" asp-fragment="songTable"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr id="songTable">
+            <td>
+                    <a asp-controller="Songs" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Writer)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillBoardRank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                <a asp-controller="Songs" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-controller="Songs"  asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-controller="Songs" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

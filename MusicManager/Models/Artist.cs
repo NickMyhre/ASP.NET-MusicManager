@@ -14,8 +14,8 @@ namespace MusicManager.Models
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
         public string? Fact { get; set; }
-        public virtual ICollection<Album>? Albums { get; set; }
-        public virtual ICollection<Song>? Songs { get; set; }
+        public virtual ICollection<Album>? Albums { get; set; } = new List<Album>();
+        public virtual ICollection<Song>? Songs { get; set; } = new List<Song>();
             
     }
 }

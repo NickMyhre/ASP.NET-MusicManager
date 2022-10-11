@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicManager.Contracts;
 using MusicManager.Enumerations;
+using MusicManager.Enumerations.Sorting;
 using MusicManager.Models;
 using MusicManager.Repositories;
+using MusicManager.Utility;
 using MusicManager.ViewModels.Album;
 using NuGet.Packaging;
 
@@ -27,16 +29,21 @@ namespace MusicManager.Controllers
         }
 
         // GET: Albums
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id = "Title_asc")
         {
+            AlbumOrderBy order = AlbumOrderBy.Title_asc;
+
+            Enum.TryParse(id, true, out order);
 
             var albums = await _albumsRepository.GetAllAsync();
-            var albumDtoList = _mapper.Map<List<AlbumDto>>(albums);
-              return View(albumDtoList);
+
+            var albumDtoList = SortingHelper.SortAlbums(_mapper.Map<List<AlbumDto>>(albums), order);
+
+            return View(albumDtoList);
         }
 
         // GET: Albums/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string orderBy = "Name_asc")
         {
             if (id == null || !_albumsRepository.HasEntries(SelectType.Album))
             {
@@ -49,7 +56,14 @@ namespace MusicManager.Controllers
                 return NotFound();
             }
 
-            var albumDetailsDto = _mapper.Map<AlbumDetailsDto>(album);  
+            SongOrderBy order = SongOrderBy.Name_asc;
+
+            Enum.TryParse(orderBy, true, out order);
+
+            var albumDetailsDto = _mapper.Map<AlbumDetailsDto>(album);
+
+            albumDetailsDto.Songs = SortingHelper.SortSongs(albumDetailsDto.Songs.ToList(), order);
+            
             return View(albumDetailsDto);
         }
 

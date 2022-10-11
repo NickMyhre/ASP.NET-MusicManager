@@ -15,12 +15,24 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+                &nbsp
+                <a asp-action="Index" asp-route-id="Name_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Name_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Album)
+                &nbsp
+                <a asp-action="Index" asp-route-id="Album_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Album_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Writer)
+                &nbsp
+                <a asp-action="Index" asp-route-id="Writer_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                &nbsp
+                <a asp-action="Index" asp-route-id="Writer_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
             </th>
             <th></th>
         </tr>
