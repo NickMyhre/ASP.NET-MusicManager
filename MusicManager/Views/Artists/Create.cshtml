@@ -5,11 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Artist</h4>
 <hr />
-<div class="row">
+<h1 class="text-center display-4">Create an Artist</h1>
+<hr />
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -35,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DeathDate" class="control-label"></label>
-                <input asp-for="DeathDate" class="form-control" />
+                <input asp-for="DeathDate" type="date" class="form-control" />
                 <span asp-validation-for="DeathDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,15 +42,12 @@
                 <input asp-for="Fact" class="form-control" />
                 <span asp-validation-for="Fact" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mt-2">
+                <input type="submit" value="Create" class="btn btn-outline-light" />
+                <a asp-action="Index" class="btn btn-outline-light">Cancel</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

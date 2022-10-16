@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<MusicManager.ViewModels.Song.SongDto>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table text-white">
+
+<table class="table text-white table-hover table-dark table-striped table-responsive mt-3">
     <thead>
         <tr>
             <th>
@@ -17,15 +15,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Length)
             </th>
+            <th></th>
 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr id="songTable">
-                <td>
-                    <a asp-controller="Songs" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            <tr id="songTable" onclick="location.href='@Url.Action("Details", "Songs", new {id = item.Id})'" class="data-row">
+                <td >
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Writer)
@@ -36,10 +35,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Length)
                 </td>
-                <td>
-                    <a asp-controller="Songs" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="Songs" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="Songs" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td class="text-end">
+                    <a asp-controller="Songs" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-light">Edit</a>
+                    <a asp-controller="Songs" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-light">Delete</a>
                 </td>
             </tr>
         }

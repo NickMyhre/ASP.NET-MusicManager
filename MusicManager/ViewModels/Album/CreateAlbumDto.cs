@@ -1,4 +1,5 @@
 ﻿using MusicManager.ViewModels.Artist;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.ViewModels.Album
@@ -7,6 +8,7 @@ namespace MusicManager.ViewModels.Album
     {
         public string? Fact { get; set; }
         [Required(ErrorMessage = "You need to select an artist before adding an album.")]
+        [DisplayName("Artists")]
         public List<int>? ArtistIds { get; set; }
         public void SetArtists()
         {

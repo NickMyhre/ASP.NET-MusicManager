@@ -9,6 +9,7 @@ namespace MusicManager.ViewModels.Song
         public TimeSpan? Length { get; set; }
         public string? Comment { get; set; }
         public int? BillBoardRank { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM d, yyyy}")]
         public DateTime? BillBoardDate { get; set; }
     }
 }

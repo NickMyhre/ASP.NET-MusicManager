@@ -17,3 +17,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+.data-row {
+    cursor: pointer;
+}
+#listheader {
+    background-image: url(../images/headerbackground.webp);
+    background-size:cover;
+    background-position-y: 20%;
+    background-position-x: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 3%;
+    border-radius: 10px;
+    overflow:hidden;
+}

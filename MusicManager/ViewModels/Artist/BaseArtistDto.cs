@@ -1,5 +1,6 @@
 ﻿using MusicManager.Models;
 using MusicManager.ViewModels.Song;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.ViewModels.Artist
@@ -11,7 +12,11 @@ namespace MusicManager.ViewModels.Artist
         [Required]
         public string? Hometown { get; set; }
         [Required]
+        [DisplayName("Birth Date")]
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM d, yyyy}")]
         public DateTime? BirthDate { get; set; }
+        [DisplayName("Death Date")]
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM d, yyyy}")]
         public DateTime? DeathDate { get; set; }
         public virtual ICollection<Models.Album>? Albums { get; set; }
         public virtual ICollection<SongDto>? Songs { get; set; }

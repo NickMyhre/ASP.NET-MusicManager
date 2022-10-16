@@ -4,19 +4,11 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<hr />
+<h1 class="justify-content-end ms-3 display-3">@Html.DisplayFor(model => model.Title)</h1>
+<hr />
 <div>
-    <h4>Album</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+    <dl class="row border-bottom m-2 mb-4">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Artists)
         </dt>
@@ -44,13 +36,13 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Fact)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 ">
             @Html.DisplayFor(model => model.Fact)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="m-2">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-light">Edit</a>
+    <a asp-action="Index" class="btn btn-outline-light">Albums</a>
 </div>
 @await Html.PartialAsync("../Shared/_AlbumSongTable.cshtml", Model.Songs, new ViewDataDictionary(ViewData){{"ParentId", Model.Id}})

@@ -5,41 +5,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div id="listheader">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table text-white">
+    <h1 class="text-center p-5 rounded display-2">Songs</h1>
+</div>
+<table class="table text-white table-hover table-dark table-striped">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
                 &nbsp
-                <a asp-action="Index" asp-route-id="Name_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Name_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Name_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Name_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Album)
                 &nbsp
-                <a asp-action="Index" asp-route-id="Album_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Album_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Album_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Album_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Writer)
                 &nbsp
-                <a asp-action="Index" asp-route-id="Writer_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Writer_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Writer_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Writer_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr onclick="location.href='@Url.Action("Details", "Songs", new {id = item.Id})'" class="data-row">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -49,10 +48,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Writer)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td class="text-end">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-light">Edit</a> 
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-light">Delete</a>
             </td>
         </tr>
 }

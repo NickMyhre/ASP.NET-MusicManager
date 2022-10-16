@@ -4,52 +4,50 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div id="listheader">
+<h1 class="text-center p-5 rounded display-2">Albums</h1>
+</div>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table text-white">
+<table class="table text-white table-hover table-hover table-dark table-striped">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)&nbsp
-                <a asp-action="Index" asp-route-id="Title_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Title_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Title_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Title_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Artists)&nbsp
-                <a asp-action="Index" asp-route-id="Artist_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Artist_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Artist_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Artist_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Label)&nbsp
-                <a asp-action="Index" asp-route-id="Label_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Label_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Label_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Label_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Genre)&nbsp
-                <a asp-action="Index" asp-route-id="Genre_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="Genre_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="Genre_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="Genre_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReleaseDate)&nbsp
-                <a asp-action="Index" asp-route-id="ReleaseDate_asc"><i class="fa-sharp fa-solid fa-arrow-up"></i></a>
+                <a asp-action="Index" asp-route-id="ReleaseDate_asc"><i class="fa-sharp fa-solid fa-arrow-up text-white"></i></a>
                 &nbsp
-                <a asp-action="Index" asp-route-id="ReleaseDate_desc"><i class="fa-sharp fa-solid fa-arrow-down"></i></a>
+                <a asp-action="Index" asp-route-id="ReleaseDate_desc"><i class="fa-sharp fa-solid fa-arrow-down text-white"></i></a>
             </th>
-            <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <a asp-action="Details" asp-route-id="@item.Id">
+            <tr onclick="location.href='@Url.Action("Details", "Albums", new {id = item.Id})'" class="data-row">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -65,12 +63,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td class="text-end">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-light">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-light">Delete</a>
             </td>
         </tr>
+        </a>
 }
     </tbody>
 </table>

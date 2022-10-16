@@ -1,7 +1,7 @@
-﻿using Microsoft.Build.Framework;
-using MusicManager.ViewModels.Artist;
+﻿using MusicManager.ViewModels.Artist;
 using MusicManager.ViewModels.Song;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.ViewModels.Album
 {
@@ -14,6 +14,7 @@ namespace MusicManager.ViewModels.Album
         [Required]
         public string? Genre { get; set; }
         [DisplayName("Release Date")]
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM d, yyyy}")]
         [Required]
         public DateTime? ReleaseDate { get; set; }
         public virtual ICollection<SongDto> Songs { get; set; } = new List<SongDto>();

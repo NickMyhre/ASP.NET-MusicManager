@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicManager.Contracts;
 using MusicManager.Enumerations;
 using MusicManager.Enumerations.Sorting;
 using MusicManager.Models;
-using MusicManager.Repositories;
 using MusicManager.Utility;
 using MusicManager.ViewModels.Album;
-using NuGet.Packaging;
 
 namespace MusicManager.Controllers
 {

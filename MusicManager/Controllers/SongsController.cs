@@ -66,6 +66,7 @@ namespace MusicManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Length,Comment,BillBoardRank,BillBoardDate,Writer,ArtistIds,AlbumId")] CreateSongDto createSongDto)
+        
         {
             if (ModelState.IsValid)
             {

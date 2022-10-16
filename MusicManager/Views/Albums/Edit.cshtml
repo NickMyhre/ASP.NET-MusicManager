@@ -5,15 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Album</h4>
 <hr />
-<div class="row">
+<h1 class="text-center display-4">Edit an Album</h1>
+<hr />
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -31,14 +29,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="ReleaseDate" class="control-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
+                <input asp-for="ReleaseDate" type="date" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArtistIds" multiple="multiple" class="control-label"></label>
-                <select asp-for="ArtistIds" class="form-control" asp-items="@ViewBag.ArtistList">
-                </select>
-                <span asp-validation-for="ArtistIds" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Fact" class="control-label"></label>
@@ -46,14 +38,17 @@
                 <span asp-validation-for="Fact" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="ArtistIds" multiple="multiple" class="control-label"></label>
+                <select asp-for="ArtistIds" class="form-control" asp-items="@ViewBag.ArtistList">
+                </select>
+                <span asp-validation-for="ArtistIds" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Edit" class="btn btn-outline-light" />
+                <a asp-action="Index" class="btn btn-outline-light">Cancel</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

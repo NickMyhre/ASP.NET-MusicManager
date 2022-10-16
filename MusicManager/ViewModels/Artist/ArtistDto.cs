@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.ComponentModel;
+using System.Diagnostics.Contracts;
 
 namespace MusicManager.ViewModels.Artist
 {
@@ -33,6 +34,7 @@ namespace MusicManager.ViewModels.Artist
             }
             return lastName;
         }
+        [DisplayName("Last Name")]
         public string LastName { get => this.GetLastName(); }
     }
 }
